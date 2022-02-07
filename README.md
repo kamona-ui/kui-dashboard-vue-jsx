@@ -8,7 +8,7 @@
 
 ##### [Vue SFC version](https://github.com/kamona-ui/kui-dashboard-vue/)
 
-##### [HTML version](https://github.com/kamona-ui/kui-dashboard-vue/)
+##### [HTML version](https://github.com/kamona-ui/kui-dashboard-html/)
 
 ##### To get started:
 
