@@ -2,8 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
+.apexcharts-canvas {
+  background: transparent !important;
+}
+
+.dark .apexcharts-legend-text {
+  color: #fff !important;
+}
+
 .dark .apexcharts-tooltip.apexcharts-theme-light.apexcharts-active,
-.dark .apexcharts-tooltip.apexcharts-theme-light {
+.dark .apexcharts-tooltip.apexcharts-theme-light,
+.dark .apexcharts-tooltip-title {
   background: transparent !important;
   background-color: rgb(34 39 56) !important;
   color: #fff !important;

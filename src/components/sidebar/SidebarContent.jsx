@@ -30,10 +30,10 @@ export default defineComponent({
         >
           <SidebarCollapsibleItem to={{ name: 'Login' }} title="Login" />
           <SidebarCollapsibleItem to={{ name: 'Register' }} title="Register" />
-          <SidebarCollapsibleItem to={{ name: 'VerifyEmail' }} title="VerifyEmail" />
-          <SidebarCollapsibleItem to={{ name: 'ForgotPassword' }} title="ForgotPassword" />
-          <SidebarCollapsibleItem to={{ name: 'ResetPassword' }} title="ResetPassword" />
-          <SidebarCollapsibleItem to={{ name: 'ConfirmPassword' }} title="ConfirmPassword" />
+          <SidebarCollapsibleItem to={{ name: 'VerifyEmail' }} title="Verify Email" />
+          <SidebarCollapsibleItem to={{ name: 'ForgotPassword' }} title="Forgot Password" />
+          <SidebarCollapsibleItem to={{ name: 'ResetPassword' }} title="Reset Password" />
+          <SidebarCollapsibleItem to={{ name: 'ConfirmPassword' }} title="Confirm Password" />
         </SidebarCollapsible>
       </PerfrectScrollbar>
     )

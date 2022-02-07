@@ -4,7 +4,7 @@ import { HeartIcon } from '@heroicons/vue/solid'
 export default defineComponent({
   setup() {
     return () => (
-      <footer class="w-full flex flex-col flex-shrink-0 gap-2 px-6 py-4 lg:flex-row lg:justify-between">
+      <footer class="mt-4 w-full flex flex-col flex-shrink-0 gap-2 px-6 py-4 lg:flex-row lg:justify-between">
         <p class="text-sm text-gray-500 dark:text-gray-400">
           &#169;
           <span>{new Date().getFullYear()}</span> K UI, All rights reserved

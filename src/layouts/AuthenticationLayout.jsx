@@ -6,7 +6,7 @@ import PageFooter from '@/components/PageFooter'
 export default defineComponent({
   setup() {
     return () => (
-      <div class="flex flex-col items-center justify-center min-h-screen gap-4 py-6 bg-gray-100 dark:bg-dark-bg">
+      <div class="flex flex-col items-center justify-center min-h-screen gap-4 pt-6 bg-gray-100 dark:bg-dark-bg">
         <div class="flex-shrink-0">
           <RouterLink to={{ name: 'Dashboard' }}>
             <Logo class="w-20 h-20" />

@@ -1,9 +1,7 @@
-import { defineComponent, onMounted, ref, Transition } from 'vue'
+import { defineComponent, onMounted, ref } from 'vue'
 import ApexCharts from 'apexcharts'
-import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
-import Button from '@/components/Button'
-import { ChartBarIcon, TrendingUpIcon, TrendingDownIcon, MinusIcon, DotsHorizontalIcon } from '@heroicons/vue/outline'
-import { RouterLink } from 'vue-router'
+import BaseCard from '@/components/BaseCard'
+import { ChartBarIcon, TrendingUpIcon, TrendingDownIcon, MinusIcon } from '@heroicons/vue/outline'
 
 export default defineComponent({
   props: {
@@ -19,9 +17,9 @@ export default defineComponent({
     percentage: {
       type: [String, Number],
     },
-    actionLink: {
-      type: [String, Object],
-      default: '#',
+    actions: {
+      type: Array,
+      default: [],
     },
     chartData: {
       type: [Array, Object],
@@ -135,108 +133,62 @@ export default defineComponent({
     })
 
     return () => (
-      <div class="flex flex-col gap-2 p-4 bg-white rounded-md shadow-md dark:bg-dark-eval-1">
-        <div class="flex items-center justify-between">
-          <div class="flex items-center gap-6">
-            {slots.icon ? (
-              slots.icon({ sizeClasses: 'w-8 h-8 text-purple-500' })
-            ) : (
-              <ChartBarIcon aria-hidden="true" class="w-8 h-8 text-purple-500" />
-            )}
+      <BaseCard
+        actions={props.actions}
+        v-slots={{
+          header: () => (
+            <div class="flex items-center gap-6">
+              {slots.icon ? (
+                slots.icon({ sizeClasses: 'w-8 h-8 text-purple-500' })
+              ) : (
+                <ChartBarIcon aria-hidden="true" class="w-8 h-8 text-purple-500" />
+              )}
 
-            <div class="flex items-center gap-2">
-              <span
-                class={[
-                  'p-0.5 block rounded-full',
-                  {
-                    'bg-green-100 dark:bg-green-800': props.status == 'success',
-                    'bg-yellow-100 dark:bg-yellow-800': props.status == 'warning',
-                    'bg-red-100 dark:bg-red-800': props.status == 'danger',
-                  },
-                ]}
-              >
-                <TrendingUpIcon
-                  v-show={props.status == 'success'}
-                  aria-hidden="true"
-                  class="w-4 h-4 text-green-500 dark:text-green-200"
-                />
-                <MinusIcon
-                  v-show={props.status == 'warning'}
-                  aria-hidden="true"
-                  class="w-4 h-4 text-yellow-500 dark:text-yellow-200"
-                />
-                <TrendingDownIcon
-                  v-show={props.status == 'danger'}
-                  aria-hidden="true"
-                  class="w-4 h-4 text-red-500 dark:text-red-200"
-                />
-              </span>
+              <div class="flex items-center gap-2">
+                <span
+                  class={[
+                    'p-0.5 block rounded-full',
+                    {
+                      'bg-green-100 dark:bg-green-800': props.status == 'success',
+                      'bg-yellow-100 dark:bg-yellow-800': props.status == 'warning',
+                      'bg-red-100 dark:bg-red-800': props.status == 'danger',
+                    },
+                  ]}
+                >
+                  <TrendingUpIcon
+                    v-show={props.status == 'success'}
+                    aria-hidden="true"
+                    class="w-4 h-4 text-green-500 dark:text-green-200"
+                  />
+                  <MinusIcon
+                    v-show={props.status == 'warning'}
+                    aria-hidden="true"
+                    class="w-4 h-4 text-yellow-500 dark:text-yellow-200"
+                  />
+                  <TrendingDownIcon
+                    v-show={props.status == 'danger'}
+                    aria-hidden="true"
+                    class="w-4 h-4 text-red-500 dark:text-red-200"
+                  />
+                </span>
 
-              <span
-                class={[
-                  'text-xs font-medium',
-                  {
-                    'text-green-500': status == 'success',
-                    'text-yellow-500': status == 'warning',
-                    'text-red-500': status == 'danger',
-                  },
-                ]}
-              >
-                {props.percentage}
-              </span>
+                <span
+                  class={[
+                    'text-xs font-medium',
+                    {
+                      'text-green-500': props.status == 'success',
+                      'text-yellow-500': props.status == 'warning',
+                      'text-red-500': props.status == 'danger',
+                    },
+                  ]}
+                >
+                  {props.percentage}
+                </span>
+              </div>
             </div>
-          </div>
-
-          {/* Card action */}
-          <Menu as="div" class="relative">
-            <MenuButton as="span">
-              <Button iconOnly size="sm" variant="secondary">
-                {({ iconSizeClasses }) => (
-                  <>
-                    <span class="sr-only">Card Actions</span>
-                    <DotsHorizontalIcon aria-hidden="true" class={iconSizeClasses} />
-                  </>
-                )}
-              </Button>
-            </MenuButton>
-
-            <Transition
-              enter-active-class="transition duration-100 ease-out"
-              enter-from-class="transform scale-95 opacity-0"
-              enter-to-class="transform scale-100 opacity-100"
-              leave-active-class="transition duration-75 ease-in"
-              leave-from-class="transform scale-100 opacity-100"
-              leave-to-class="transform scale-95 opacity-0"
-            >
-              <MenuItems class="absolute z-30 right-0 w-40 mt-2 origin-top-right bg-white dark:bg-dark-eval-1 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                <div class="px-1 py-1">
-                  {slots.actions ? (
-                    slots.actions()
-                  ) : (
-                    <MenuItem>
-                      {({ active }) => (
-                        <RouterLink
-                          class={[
-                            'block w-full px-4 py-2 text-sm leading-5 text-left  transition duration-150 ease-in-out',
-                            'focus:outline-none',
-                            {
-                              'bg-gray-100 dark:text-white dark:bg-dark-eval-3': active,
-                              'text-gray-700 dark:text-gray-400': !active,
-                            },
-                          ]}
-                          to={props.actionLink}
-                        >
-                          View
-                        </RouterLink>
-                      )}
-                    </MenuItem>
-                  )}
-                </div>
-              </MenuItems>
-            </Transition>
-          </Menu>
-        </div>
-
+          ),
+        }}
+      >
         <div class="relative grid grid-cols-2">
           <div>
             <h4 class="text-3xl font-semibold">{props.result}</h4>
@@ -246,7 +198,7 @@ export default defineComponent({
             <div ref={chartEl}></div>
           </div>
         </div>
-      </div>
+      </BaseCard>
     )
   },
 })

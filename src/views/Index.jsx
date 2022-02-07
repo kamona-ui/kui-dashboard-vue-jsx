@@ -132,71 +132,67 @@ export default defineComponent({
     })
 
     return () => (
-      <div class="min-h-screen text-gray-900 bg-gray-100">
+      <div class="min-h-screen text-gray-900 bg-gray-100 dark:bg-dark-bg">
         <Navbar />
 
         <main>
           <h1 class="sr-only">K UI Dashboard Template</h1>
 
-          <div class="relative overflow-hidden min-h-screen bg-gradient-to-tr from-purple-500 via-blue-300 to-indigo-400 dark:from-purple-900 dark:via-blue-900 dark:to-indigo-800">
+          {/* Introsection */}
+          <section class="relative min-h-screen overflow-hidden bg-gradient-to-tr from-purple-500 via-blue-300 to-indigo-400 dark:from-purple-900 dark:via-blue-900 dark:to-indigo-800">
+            <h2 class="sr-only">Showcase</h2>
+
             {/* Background */}
-            <div class="absolute inset-x-[-10vw] top-0 bottom-20 md:bottom-0 md:top-24 rounded-[77vw/50vw] rounded-t-none md:rounded-b-none md:rounded-[77vw/50vw] bg-white dark:bg-gray-800"></div>
+            <div class="absolute inset-x-[-10vw] top-0 bottom-20 md:bottom-0 md:top-24 rounded-[77vw/50vw] rounded-t-none md:rounded-b-none md:rounded-[77vw/50vw] bg-white dark:bg-dark-bg"></div>
 
-            {/* Introsection */}
-            <div>
-              <section class="min-h-screen intro">
-                <h2 class="sr-only">Showcase</h2>
-
-                <div class="px-6 pb-24 md:pt-28 mx-auto max-w-7xl">
-                  <div class="grid gap-5 perspective-100vw md:grid-cols-4 md:grid-rows-1">
-                    {/* Left */}
-                    <div class="hidden md:flex items-center justify-center transform-style-3d">
-                      <div
-                        id="mobile2Showcase"
-                        class="w-full h-full flex items-center justify-center rotate-x-25 rotate-y-25 rotate-z--15"
-                      >
-                        <img v-show={!isDark.value} src={mobileLight2} class="h-auto w-[70%] drop-shadow-2xl" />
-                        <img v-show={isDark.value} src={mobileDark2} class="h-auto w-[70%] drop-shadow-2xl" />
-                      </div>
-                    </div>
-
-                    {/* Center */}
-                    <div class="transform-style-3d flex flex-col gap-10 items-center justify-center md:pb-18 col-span-3 row-start-2 md:row-start-1 md:col-span-2 md:col-start-2">
-                      <div class="flex items-center mt-10 md:mt-4 justify-center transform-style-3d">
-                        <img
-                          v-show={!isDark.value}
-                          id="desktopShowcase"
-                          class="rotate-x-15 w-[75%] md:w-full"
-                          src={desktopLight}
-                          alt="Desktop showcase"
-                        />
-                        <img
-                          v-show={isDark.value}
-                          id="desktopShowcase"
-                          class="rotate-x-15 w-[75%] md:w-full"
-                          src={desktopDark}
-                          alt="Desktop showcase"
-                        />
-                      </div>
-
-                      <CTAButtons />
-                    </div>
-
-                    {/* Right */}
-                    <div class="hidden md:flex items-center justify-center transform-style-3d">
-                      <div
-                        id="mobile1Showcase"
-                        class="w-full h-full flex items-center justify-center rotate-x-25 rotate-y--25 rotate-z-15"
-                      >
-                        <img v-show={!isDark.value} src={mobileLight} class="h-auto w-[70%] drop-shadow-2xl" />
-                        <img v-show={isDark.value} src={mobileDark} class="h-auto w-[70%] drop-shadow-2xl" />
-                      </div>
-                    </div>
+            <div class="px-6 pb-24 md:pt-28 mx-auto max-w-7xl">
+              <div class="grid gap-5 perspective-100vw md:grid-cols-4 md:grid-rows-1">
+                {/* Left */}
+                <div class="hidden md:flex items-center justify-center transform-style-3d">
+                  <div
+                    id="mobile2Showcase"
+                    class="w-full h-full flex items-center justify-center rotate-x-25 rotate-y-25 rotate-z--15"
+                  >
+                    <img v-show={!isDark.value} src={mobileLight2} class="h-auto w-[70%] drop-shadow-2xl" />
+                    <img v-show={isDark.value} src={mobileDark2} class="h-auto w-[70%] drop-shadow-2xl" />
                   </div>
                 </div>
-              </section>
+
+                {/* Center */}
+                <div class="transform-style-3d flex flex-col gap-10 items-center justify-center md:pb-18 col-span-3 row-start-2 md:row-start-1 md:col-span-2 md:col-start-2">
+                  <div class="flex items-center mt-10 md:mt-4 justify-center transform-style-3d">
+                    <img
+                      v-show={!isDark.value}
+                      id="desktopShowcase"
+                      class="rotate-x-15 w-[75%] md:w-full"
+                      src={desktopLight}
+                      alt="Desktop showcase"
+                    />
+                    <img
+                      v-show={isDark.value}
+                      id="desktopShowcase"
+                      class="rotate-x-15 w-[75%] md:w-full"
+                      src={desktopDark}
+                      alt="Desktop showcase"
+                    />
+                  </div>
+
+                  <CTAButtons />
+                </div>
+
+                {/* Right */}
+                <div class="hidden md:flex items-center justify-center transform-style-3d">
+                  <div
+                    id="mobile1Showcase"
+                    class="w-full h-full flex items-center justify-center rotate-x-25 rotate-y--25 rotate-z-15"
+                  >
+                    <img v-show={!isDark.value} src={mobileLight} class="h-auto w-[70%] drop-shadow-2xl" />
+                    <img v-show={isDark.value} src={mobileDark} class="h-auto w-[70%] drop-shadow-2xl" />
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
+          </section>
         </main>
       </div>
     )
