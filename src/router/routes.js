@@ -13,6 +13,11 @@ export default [
         name: 'Dashboard',
         component: () => import('@/views/Dashboard'),
       },
+      {
+        path: '/pages/blank',
+        name: 'Blank',
+        component: () => import('@/views/pages/Blank'),
+      },
     ],
   },
   {

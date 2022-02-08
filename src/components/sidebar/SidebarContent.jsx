@@ -3,7 +3,7 @@ import { useRouter } from 'vue-router'
 import PerfrectScrollbar from '@/components/perfect-scrollbar'
 import SidebarLink from '@/components/sidebar/SidebarLink'
 import { DashboardIcon } from '@/components/icons/outline'
-import { ShieldCheckIcon } from '@heroicons/vue/outline'
+import { ShieldCheckIcon, DocumentIcon } from '@heroicons/vue/outline'
 import SidebarCollapsible from '@/components/sidebar/SidebarCollapsible'
 import SidebarCollapsibleItem from '@/components/sidebar/SidebarCollapsibleItem'
 
@@ -11,6 +11,10 @@ export default defineComponent({
   setup() {
     const isCurrentRoute = (routeName) => {
       return useRouter().currentRoute.value.name == routeName
+    }
+
+    const isCurrentPath = (path) => {
+      return useRouter().currentRoute.value.path.startsWith(path)
     }
 
     return () => (
@@ -23,6 +27,14 @@ export default defineComponent({
             icon: () => <DashboardIcon class="flex-shrink-0 w-6 h-6" aria-hidden="true" />,
           }}
         />
+
+        <SidebarCollapsible
+          title="Pages"
+          v-slots={{ icon: () => <DocumentIcon class="flex-shrink-0 w-6 h-6" aria-hidden="true" /> }}
+          active={isCurrentPath('/pages')}
+        >
+          <SidebarCollapsibleItem to={{ name: 'Blank' }} title="Blank" active={isCurrentRoute('Blank')} />
+        </SidebarCollapsible>
 
         <SidebarCollapsible
           title="Authentication"
