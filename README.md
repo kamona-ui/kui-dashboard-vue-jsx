@@ -4,8 +4,6 @@
 
 ### [Live preview](https://kamona-ui.github.io/kui-dashboard-vue-jsx/)
 
-### [Figma file](https://www.figma.com/community/file/1019844542917981418/)
-
 ##### [Vue SFC version](https://github.com/kamona-ui/kui-dashboard-vue/)
 
 ##### [HTML version](https://github.com/kamona-ui/kui-dashboard-html/)
