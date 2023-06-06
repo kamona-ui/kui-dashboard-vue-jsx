@@ -1,200 +1,269 @@
-import { defineComponent, onMounted, onUnmounted, ref } from 'vue'
-import { gsap } from 'gsap'
-import Logo from '@/components/Logo'
-import { GithubIcon, FigmaIcon } from '@/components/icons/brands'
-import { handleScroll, isDark, scrolling, toggleDarkMode, isMobileMenuOpen } from '@/composables'
-import { MoonIcon, SunIcon, EyeIcon } from '@heroicons/vue/outline'
-import desktopLight from '@/assets/images/showcase/desktop-light.svg'
-import desktopDark from '@/assets/images/showcase/desktop-dark.svg'
-import mobileDark from '@/assets/images/showcase/mobile-dark.svg'
-import mobileDark2 from '@/assets/images/showcase/mobile-dark-2.svg'
-import mobileLight from '@/assets/images/showcase/mobile-light.svg'
-import mobileLight2 from '@/assets/images/showcase/mobile-light-2.svg'
+import { defineComponent, onMounted, ref } from 'vue'
+import PageWrapper from '@/components/PageWrapper'
+import BaseCard from '@/components/BaseCard'
 import Button from '@/components/Button'
-import { warnToast } from '@/toast'
+import QuiclStatisticsCard from '@/components/QuiclStatisticsCard'
+import { GithubIcon } from '@/components/icons/brands'
+import {
+  UserGroupIcon,
+  EyeIcon,
+  ShoppingCartIcon,
+  ChartPieIcon,
+  UserAddIcon,
+  ChartBarIcon,
+} from '@heroicons/vue/outline'
+import ApexCharts from 'apexcharts'
 
-const Navbar = defineComponent({
-  setup() {
-    onMounted(() => {
-      window.addEventListener('scroll', handleScroll)
-    })
-
-    onUnmounted(() => {
-      window.removeEventListener('scroll', handleScroll)
-    })
-
-    return () => (
-      <nav
-        class={[
-          'fixed bottom-0 md:top-0 md:bottom-auto inset-x-0 duration-500 transition-all z-20',
-          {
-            'shadow-t-lg md:shadow-lg bg-white dark:bg-gray-700 translate-y-full md:-translate-y-full': scrolling.down,
-            'shadow-t-lg md:shadow-lg bg-white dark:bg-gray-700': scrolling.up,
-          },
-        ]}
-      >
-        <div
-          class={[
-            'relative max-w-7xl mx-auto flex items-center justify-between p-4 md:h-24',
-            {
-              'shadow-t-lg bg-white dark:bg-gray-700': isMobileMenuOpen.value,
-            },
-          ]}
-        >
-          {/* Logo */}
-          <a href="#" class="inline-block rounded-md p-2 bg-white dark:bg-dark-eval-1">
-            <span class="sr-only">Home</span>
-            <Logo class="w-10 h-auto md:w-12" />
-          </a>
-
-          {/* Dark mode button */}
-          <Button onClick={toggleDarkMode} iconOnly type="button" variant="secondary">
-            {({ iconSizeClasses }) => (
-              <>
-                <MoonIcon v-show={!isDark.value} class={iconSizeClasses} />
-                <SunIcon v-show={isDark.value} class={iconSizeClasses} />
-              </>
-            )}
-          </Button>
-        </div>
-      </nav>
-    )
-  },
-})
-
-const CTAButtons = defineComponent({
+const Header = defineComponent({
   setup() {
     return () => (
-      <div class="flex flex-col items-center justify-center gap-6 lg:flex-row">
-        <Button to={{ name: 'Dashboard' }} type="button" class="w-full justify-center items-center gap-2">
-          {({ iconSizeClasses }) => (
-            <>
-              <EyeIcon aria-hidden="true" class={iconSizeClasses} />
-              <span class="whitespace-nowrap">Live Preview</span>
-            </>
-          )}
-        </Button>
+      <>
+        <h2 class="text-xl font-semibold leading-tight">Dashboard</h2>
 
         <Button
-          href="https://github.com/kamona-ui/kui-dashboard-vue-jsx"
           target="_blank"
-          class="w-full justify-center items-center gap-2"
+          href="https://github.com/kamona-ui/kui-dashboard-vue-jsx"
           variant="black"
+          class="max-w-sm justify-center gap-2"
         >
           {({ iconSizeClasses }) => (
             <>
               <GithubIcon aria-hidden="true" class={iconSizeClasses} />
-              <span class="whitespace-nowrap">Github</span>
+              <span>Star on Github</span>
             </>
           )}
         </Button>
-
-        <Button
-          href="https://www.figma.com/community/file/1019844542917981418"
-          target="_blank"
-          class="w-full justify-center items-center gap-2"
-          variant="info"
-        >
-          {({ iconSizeClasses }) => (
-            <>
-              <FigmaIcon aria-hidden="true" class={iconSizeClasses} />
-              <span class="whitespace-nowrap">Figma File</span>
-            </>
-          )}
-        </Button>
-      </div>
+      </>
     )
   },
 })
 
 export default defineComponent({
   setup() {
-    onMounted(() => {
-      // TODO: start animation after load images.
-      gsap.from(['#mobile2Showcase', '#mobile1Showcase'], {
-        rotateZ: 0,
-        rotateY: 0,
-        rotateX: 0,
-        duration: 2,
-      })
+    const customersData = [4, 3, 10, 9, 29, 19, 22, 9, 12, 7, 19, 5, 13]
+    const visitsData = [4, 3, 10, 9, 29, 19, 22, 9, 12, 7, 19, 5, 13].reverse()
+    const ordersData = [4, 3, 10, 9, 29, 19, 22, 9, 12, 7, 19, 5, 13]
+    const growthData = [4, 3, 10, 9, 29, 19, 22, 9, 12, 7, 19, 5, 13]
 
-      gsap.from(['#desktopShowcase'], {
-        rotateZ: 0,
-        rotateY: 0,
-        rotateX: 0,
-        duration: 2,
-        onComplete: () => {
-          warnToast({
-            text: 'This template is not finished yet and still in design phase. We are building it in public.',
-          })
+    const earningChartEl = ref(null)
+
+    const salesChartEl = ref(null)
+
+    onMounted(() => {
+      let earningChart = new ApexCharts(earningChartEl.value, {
+        series: [30, 70],
+        chart: {
+          type: 'donut',
+          toolbar: {
+            show: false,
+          },
+        },
+        dataLabels: {
+          enabled: false,
+        },
+        legend: { show: false },
+        comparedResult: [3, 7],
+        labels: ['Sales', ''],
+        stroke: { width: 0 },
+        colors: ['#a855f7', '#e2e8f0'],
+        grid: {
+          padding: {
+            right: -20,
+            bottom: -8,
+            left: -20,
+          },
+        },
+        plotOptions: {
+          pie: {
+            donut: {
+              labels: {
+                show: true,
+                name: {
+                  offsetY: 15,
+                },
+                value: {
+                  offsetY: -20,
+                  formatter(val) {
+                    return `${parseInt(val)}%`
+                  },
+                },
+                total: {
+                  show: true,
+                  label: 'Sales',
+                  formatter() {
+                    return '30%'
+                  },
+                },
+              },
+            },
+          },
         },
       })
+      earningChart.render()
+
+      let salesChart = new ApexCharts(salesChartEl.value, {
+        series: [
+          {
+            name: 'Sales',
+            data: [31, 40, 28, 51, 42, 109, 100],
+          },
+          {
+            name: 'Revenue',
+            data: [11, 32, 45, 32, 34, 52, 41],
+          },
+        ],
+        legend: {
+          position: 'top',
+        },
+        chart: {
+          height: '100%',
+          type: 'area',
+          toolbar: {
+            show: false,
+          },
+        },
+        grid: {
+          show: false,
+          padding: {
+            left: 0,
+            right: 0,
+          },
+        },
+        dataLabels: {
+          enabled: false,
+        },
+        stroke: {
+          curve: 'smooth',
+        },
+        xaxis: {
+          type: 'datetime',
+          categories: ['1/11/2000', '2/11/2000', '3/11/2000', '4/11/2000', '5/11/2000', '6/11/2000'],
+        },
+        tooltip: {
+          x: {
+            format: 'dd/MM/yy HH:mm',
+          },
+        },
+      })
+      salesChart.render()
     })
 
     return () => (
-      <div class="min-h-screen text-gray-900 bg-gray-100 dark:bg-dark-bg">
-        <Navbar />
+      <PageWrapper v-slots={{ header: () => <Header /> }} mainTitle="Dashboard Home">
+        {/* Statistics section */}
+        <section class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+          <h2 class="sr-only">Quick statistics</h2>
 
-        <main>
-          <h1 class="sr-only">K UI Dashboard Template</h1>
+          {/* Customers card  */}
+          <QuiclStatisticsCard
+            v-slots={{
+              icon: ({ sizeClasses }) => <UserGroupIcon aria-hidden="true" class={sizeClasses} />,
+            }}
+            chartData={customersData}
+            title="Customers"
+            result="12.4k"
+            percentage="32.40%"
+            actions={[{ title: 'View', to: '#' }]}
+          />
 
-          {/* Introsection */}
-          <section class="relative min-h-screen overflow-hidden bg-gradient-to-tr from-purple-500 via-blue-300 to-indigo-400 dark:from-purple-900 dark:via-blue-900 dark:to-indigo-800">
-            <h2 class="sr-only">Showcase</h2>
+          {/* Visits card  */}
+          <QuiclStatisticsCard
+            v-slots={{
+              icon: ({ sizeClasses }) => <EyeIcon aria-hidden="true" class={sizeClasses} />,
+            }}
+            chartData={visitsData}
+            title="Visits"
+            result="-2.6k"
+            status="danger"
+            percentage="-2.10%"
+            actions={[{ title: 'View', to: '#' }]}
+          />
 
-            {/* Background */}
-            <div class="absolute inset-x-[-10vw] top-0 bottom-20 md:bottom-0 md:top-24 rounded-[77vw/50vw] rounded-t-none md:rounded-b-none md:rounded-[77vw/50vw] bg-white dark:bg-dark-bg"></div>
+          {/* Orders card  */}
+          <QuiclStatisticsCard
+            v-slots={{
+              icon: ({ sizeClasses }) => <ShoppingCartIcon aria-hidden="true" class={sizeClasses} />,
+            }}
+            chartData={ordersData}
+            title="Orders"
+            result="34.4k"
+            status="warning"
+            percentage="0.60%"
+            actions={[{ title: 'View', to: '#' }]}
+          />
 
-            <div class="px-6 pb-24 md:pt-28 mx-auto max-w-7xl">
-              <div class="grid gap-5 perspective-100vw md:grid-cols-4 md:grid-rows-1">
-                {/* Left */}
-                <div class="hidden md:flex items-center justify-center transform-style-3d">
-                  <div
-                    id="mobile2Showcase"
-                    class="w-full h-full flex items-center justify-center rotate-x-25 rotate-y-25 rotate-z--15"
-                  >
-                    <img v-show={!isDark.value} src={mobileLight2} class="h-auto w-[70%] drop-shadow-2xl" />
-                    <img v-show={isDark.value} src={mobileDark2} class="h-auto w-[70%] drop-shadow-2xl" />
+          {/* Growth card  */}
+          <QuiclStatisticsCard
+            v-slots={{
+              icon: ({ sizeClasses }) => <ChartPieIcon aria-hidden="true" class={sizeClasses} />,
+            }}
+            chartData={growthData}
+            title="Growth"
+            result="15.6%"
+            percentage="7.20%"
+            actions={[{ title: 'View', to: '#' }]}
+          />
+        </section>
+
+        {/* Sales section */}
+        <section class="grid grid-cols-1">
+          <h2 class="sr-only">Sales charts</h2>
+
+          <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
+            <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-1">
+              <div class="grid grid-cols-2 gap-6">
+                {/* Today's user  */}
+                <BaseCard noHeader bgClasses="bg-purple-500">
+                  <div class="p-2 grid grid-cols-1 gap-4">
+                    <UserAddIcon class="w-10 h-10 text-white" />
+
+                    <div class="grid gap-2">
+                      <p class="text-base font-medium text-green-300">+1%</p>
+                      <p class="text-3xl font-medium text-white">1,210</p>
+                    </div>
+
+                    <p class="text-sm font-medium text-white">Today's Users</p>
                   </div>
-                </div>
+                </BaseCard>
 
-                {/* Center */}
-                <div class="transform-style-3d flex flex-col gap-10 items-center justify-center md:pb-18 col-span-3 row-start-2 md:row-start-1 md:col-span-2 md:col-start-2">
-                  <div class="flex items-center mt-10 md:mt-4 justify-center transform-style-3d">
-                    <img
-                      v-show={!isDark.value}
-                      id="desktopShowcase"
-                      class="rotate-x-15 w-[75%] md:w-full"
-                      src={desktopLight}
-                      alt="Desktop showcase"
-                    />
-                    <img
-                      v-show={isDark.value}
-                      id="desktopShowcase"
-                      class="rotate-x-15 w-[75%] md:w-full"
-                      src={desktopDark}
-                      alt="Desktop showcase"
-                    />
+                {/* Today's sales */}
+                <BaseCard noHeader bgClasses="bg-cyan-500">
+                  <div class="p-2 grid grid-cols-1 gap-4">
+                    <ChartBarIcon class="w-10 h-10 text-white" />
+
+                    <div class="grid gap-2">
+                      <p class="text-base font-medium text-green-300">+4%</p>
+                      <p class="text-3xl font-medium text-white">20,350</p>
+                    </div>
+
+                    <p class="text-sm font-medium text-white">Today's Sales</p>
                   </div>
-
-                  <CTAButtons />
-                </div>
-
-                {/* Right */}
-                <div class="hidden md:flex items-center justify-center transform-style-3d">
-                  <div
-                    id="mobile1Showcase"
-                    class="w-full h-full flex items-center justify-center rotate-x-25 rotate-y--25 rotate-z-15"
-                  >
-                    <img v-show={!isDark.value} src={mobileLight} class="h-auto w-[70%] drop-shadow-2xl" />
-                    <img v-show={isDark.value} src={mobileDark} class="h-auto w-[70%] drop-shadow-2xl" />
-                  </div>
-                </div>
+                </BaseCard>
               </div>
+
+              {/* Earning card */}
+              <BaseCard noHeader class="grid grid-cols-2">
+                <div class="grid grid-cols-1 gap-4">
+                  <h4 class="text-2xl font-medium">Earning</h4>
+                  <p class="text-lg font-medium text-gray-500">This Month</p>
+                  <p class="text-base font-medium text-green-400">+20.5%</p>
+                  <p class="text-2xl font-medium text-gray-600">$5070.80</p>
+                </div>
+
+                {/* Donut chart */}
+                <div class="w-full h-fullflex items-center justify-center">
+                  <div ref={earningChartEl}></div>
+                </div>
+              </BaseCard>
             </div>
-          </section>
-        </main>
-      </div>
+
+            {/* Bar chart */}
+            <BaseCard title="Salas Analytics" actions={[{ title: 'View', to: '#' }]}>
+              <div ref={salesChartEl}></div>
+            </BaseCard>
+          </div>
+        </section>
+      </PageWrapper>
     )
   },
 })
