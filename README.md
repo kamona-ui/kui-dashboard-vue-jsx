@@ -1,6 +1,6 @@
 ## K UI Admin Dashboard Template (Vue 3 & JSX)
 
-> ⚠️ This template is not finished yet and still in design phase. We are building it in public.
+> ⚠️ This template is not finished yet.
 
 ### [Live preview](https://kamona-ui.github.io/kui-dashboard-vue-jsx/)
 
