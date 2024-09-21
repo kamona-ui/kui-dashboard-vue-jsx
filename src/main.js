@@ -1,17 +1,11 @@
 import { createApp } from 'vue'
 import router from '@/router'
+import Kui from '@kamona-ui/vue'
 import App from '@/App'
-import Toast from 'vue-toastification'
+import '@kamona-ui/vue/style/kui-vue.css'
 import '@/assets/css/main.css'
 
 const app = createApp(App)
 app.use(router)
-app.use(Toast, {
-  hideProgressBar: true,
-  closeOnClick: false,
-  closeButton: false,
-  icon: false,
-  timeout: false,
-  transition: 'Vue-Toastification__fade',
-})
+app.use(Kui)
 app.mount('#app')

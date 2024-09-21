@@ -1,150 +1,136 @@
 import { defineComponent, onMounted, onUnmounted } from 'vue'
 import { RouterLink } from 'vue-router'
 import { useFullscreen } from '@vueuse/core'
-import { SunIcon, MoonIcon, SearchIcon, MenuIcon, XIcon, ArrowsExpandIcon } from '@heroicons/vue/outline'
-import { handleScroll, isDark, scrolling, toggleDarkMode, sidebarState } from '@/composables'
-import Button from '@/components/Button'
+import {
+    handleScroll,
+    isDark,
+    scrolling,
+    toggleDarkMode,
+    sidebarState,
+} from '@/composables'
 import Logo from '@/components/Logo'
-import Dropdown, { DropdownItem } from '@/components/Dropdown'
-import { ArrowsInnerIcon } from '@/components/icons/outline'
 import userAvatar from '@/assets/images/avatar.jpg'
 
 export const MobileBottomBar = defineComponent({
-  setup() {
-    return () => (
-      <div
-        class={[
-          'fixed inset-x-0 bottom-0 flex items-center justify-between px-4 py-4 sm:px-6 transition-transform duration-500 bg-white md:hidden dark:bg-dark-eval-1',
-          {
-            'translate-y-full': scrolling.down,
-            'translate-y-0': scrolling.up,
-          },
-        ]}
-      >
-        <Button iconOnly variant="secondary" srText="Search">
-          {({ iconSizeClasses }) => <SearchIcon aria-hidden="true" class={iconSizeClasses} />}
-        </Button>
+    setup() {
+        return () => (
+            <div
+                class={[
+                    'fixed inset-x-0 bottom-0 z-10 flex items-center justify-between px-4 py-4 sm:px-6 transition-transform duration-500 bg-white md:hidden dark:bg-dark-eval-1',
+                    {
+                        'translate-y-full': scrolling.down,
+                        'translate-y-0': scrolling.up,
+                    },
+                ]}
+            >
+                <KuiButton
+                    variant="transparent"
+                    sr-text="Search"
+                    icon="tabler:search"
+                />
 
-        <RouterLink to={{ name: 'Dashboard' }}>
-          <Logo class="w-10 h-10" />
-          <span class="sr-only">K UI</span>
-        </RouterLink>
+                <RouterLink to={{ name: 'Dashboard' }}>
+                    <Logo class="w-10 h-10" />
+                    <span class="sr-only">Home page</span>
+                </RouterLink>
 
-        <Button
-          iconOnly
-          variant="secondary"
-          onClick={() => {
-            sidebarState.isOpen = !sidebarState.isOpen
-          }}
-          class="md:hidden"
-          srText="Search"
-        >
-          {({ iconSizeClasses }) => (
-            <>
-              <MenuIcon v-show={!sidebarState.isOpen} aria-hidden="true" class={iconSizeClasses} />
-              <XIcon v-show={sidebarState.isOpen} aria-hidden="true" class={iconSizeClasses} />
-            </>
-          )}
-        </Button>
-      </div>
-    )
-  },
+                <KuiButton
+                    variant="transparent"
+                    onClick={() => {
+                        sidebarState.isOpen = !sidebarState.isOpen
+                    }}
+                    class="md:hidden"
+                    icon={!sidebarState.isOpen ? 'tabler:menu' : 'tabler:x'}
+                    sr-text="Toggle navigation"
+                />
+            </div>
+        )
+    },
 })
 
 export default defineComponent({
-  setup() {
-    const { isFullscreen, toggle: toggleFullScreen } = useFullscreen()
+    setup() {
+        const { isFullscreen, toggle: toggleFullScreen } = useFullscreen()
 
-    onMounted(() => {
-      document.addEventListener('scroll', handleScroll)
-    })
+        onMounted(() => {
+            document.addEventListener('scroll', handleScroll)
+        })
 
-    onUnmounted(() => {
-      document.removeEventListener('scroll', handleScroll)
-    })
+        onUnmounted(() => {
+            document.removeEventListener('scroll', handleScroll)
+        })
 
-    return () => (
-      <>
-        <nav
-          aria-label="secondary"
-          class={[
-            'sticky top-0 z-10 px-6 py-4 bg-white flex items-center justify-between transition-transform duration-500 dark:bg-dark-eval-1',
-            {
-              '-translate-y-full': scrolling.down,
-              'translate-y-0': scrolling.up,
-            },
-          ]}
-        >
-          <div class="flex items-center gap-2">
-            <Button
-              iconOnly
-              variant="secondary"
-              type="button"
-              onClick={toggleDarkMode}
-              class="md:hidden"
-              srText="Toggle dark mode"
-            >
-              {({ iconSizeClasses }) => (
-                <>
-                  <MoonIcon v-show={!isDark.value} aria-hidden="true" class={iconSizeClasses} />
-                  <SunIcon v-show={isDark.value} aria-hidden="true" class={iconSizeClasses} />
-                </>
-              )}
-            </Button>
-          </div>
+        return () => (
+            <>
+                <nav
+                    aria-label="secondary"
+                    class={[
+                        'sticky top-0 z-10 px-6 py-4 bg-white flex items-center justify-between transition-transform duration-500 dark:bg-dark-eval-1',
+                        {
+                            '-translate-y-full': scrolling.down,
+                            'translate-y-0': scrolling.up,
+                        },
+                    ]}
+                >
+                    <div class="flex items-center gap-2">
+                        <KuiButton
+                            variant="white"
+                            type="button"
+                            onClick={toggleDarkMode}
+                            class="md:hidden"
+                            sr-text="Toggle dark mode"
+                            icon={!isDark.value ? 'tabler:moon' : 'tabler:sun'}
+                        />
+                    </div>
 
-          <div class="flex items-center gap-2">
-            <Button
-              iconOnly
-              variant="secondary"
-              type="button"
-              onClick={toggleDarkMode}
-              class="hidden md:inline-flex"
-              srText="Toggle dark mode"
-            >
-              {({ iconSizeClasses }) => (
-                <>
-                  <MoonIcon v-show={!isDark.value} aria-hidden="true" class={iconSizeClasses} />
-                  <SunIcon v-show={isDark.value} aria-hidden="true" class={iconSizeClasses} />
-                </>
-              )}
-            </Button>
+                    <div class="flex items-center gap-2">
+                        <KuiButton
+                            variant="transparent"
+                            type="button"
+                            onClick={toggleDarkMode}
+                            class="hidden md:inline-flex"
+                            sr-text="Toggle dark mode"
+                            icon={!isDark.value ? 'tabler:moon' : 'tabler:sun'}
+                        />
 
-            <Button
-              iconOnly
-              variant="secondary"
-              type="button"
-              onClick={toggleFullScreen}
-              class="hidden md:inline-flex"
-              srText="Toggle full screen"
-            >
-              {({ iconSizeClasses }) => (
-                <>
-                  <ArrowsExpandIcon v-show={!isFullscreen.value} aria-hidden="true" class={iconSizeClasses} />
-                  <ArrowsInnerIcon v-show={isFullscreen.value} aria-hidden="true" class={iconSizeClasses} />
-                </>
-              )}
-            </Button>
+                        <KuiButton
+                            variant="transparent"
+                            type="button"
+                            onClick={toggleFullScreen}
+                            class="hidden md:inline-flex"
+                            sr-text="Toggle full screen"
+                            icon={
+                                !isFullscreen.value
+                                    ? 'tabler:arrows-maximize'
+                                    : 'tabler:arrows-minimize'
+                            }
+                        />
 
-            {/* User dropdown */}
-            <Dropdown
-              align="right"
-              width="48"
-              v-slots={{
-                trigger: () => (
-                  <button class="flex text-sm border-2 border-transparent rounded-md transition focus:outline-none focus:ring focus:ring-purple-500 focus:ring-offset-1 focus:ring-offset-white dark:focus:ring-offset-dark-eval-1">
-                    <img class="h-8 w-8 rounded-md object-cover" src={userAvatar} alt="User Name" />
-                  </button>
-                ),
-              }}
-            >
-              <DropdownItem to="#" title="Logout" />
-            </Dropdown>
-          </div>
-        </nav>
+                        {/* User dropdown */}
+                        <KuiDropdown
+                            align="right"
+                            width="48"
+                            v-slots={{
+                                trigger: () => (
+                                    <KuiButton slim>
+                                        <KuiAvatar
+                                            size="sm"
+                                            src={userAvatar}
+                                            alt="User Name"
+                                        />
+                                    </KuiButton>
+                                ),
 
-        <MobileBottomBar />
-      </>
-    )
-  },
+                                content: () => (
+                                    <KuiDropdownItem to="#" title="Logout" />
+                                ),
+                            }}
+                        />
+                    </div>
+                </nav>
+
+                <MobileBottomBar />
+            </>
+        )
+    },
 })

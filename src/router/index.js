@@ -4,19 +4,19 @@ import routes from '@/router/routes'
 import { sidebarState } from '@/composables'
 
 const router = createRouter({
-  history: createWebHashHistory('kui-dashboard-vue-jsx'),
-  routes,
+    history: createWebHashHistory('kui-dashboard-vue-jsx'),
+    routes,
 })
 
 router.beforeEach(() => {
-  NProgress.start()
+    NProgress.start()
 })
 
 router.afterEach(() => {
-  if (window.innerWidth <= 1024) {
-    sidebarState.isOpen = false
-  }
-  NProgress.done()
+    if (window.innerWidth <= 1024) {
+        sidebarState.isOpen = false
+    }
+    NProgress.done()
 })
 
 export default router

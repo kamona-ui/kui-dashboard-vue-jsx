@@ -14,11 +14,12 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
+    "format": "prettier -w src",
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "@headlessui/vue": "^1.7.23",
-    "@heroicons/vue": "^1.0.5",
+    "@iconify/vue": "^4.1.2",
     "@vueuse/core": "^7.5.5",
     "apexcharts": "^3.33.0",
     "gsap": "^3.9.1",
@@ -35,6 +36,7 @@
     "autoprefixer": "^10.4.20",
     "gh-pages": "^3.2.3",
     "postcss": "^8.4.47",
+    "prettier": "^3.3.3",
     "tailwindcss": "^3.4.11",
     "vite": "^5.4.5"
   }

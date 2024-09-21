@@ -1,104 +1,70 @@
 import { defineComponent, reactive, withModifiers } from 'vue'
-import { RouterLink } from 'vue-router'
-import InputIconWrapper from '@/components/InputIconWrapper'
-import Button from '@/components/Button'
-import Input from '@/components/Input'
-import Label from '@/components/Label'
-import { MailIcon, LockClosedIcon } from '@heroicons/vue/outline'
 
 export default defineComponent({
-  props: {
-    email: String,
-    token: String,
-  },
+    props: {
+        email: String,
+        token: String,
+    },
 
-  setup(props, { slots }) {
-    const resetPasswordForm = reactive({
-      token: props.token,
-      email: props.email,
-      password: '',
-      password_confirmation: '',
-      processing: false,
-    })
+    setup(props) {
+        const resetPasswordForm = reactive({
+            token: props.token,
+            email: props.email,
+            password: '',
+            password_confirmation: '',
+            processing: false,
+        })
 
-    const submit = () => {
-      //
-    }
+        const submit = () => {
+            //
+        }
 
-    return () => (
-      <form onSubmit={withModifiers(submit, ['prevent'])}>
-        <div class="grid gap-4">
-          {/* Email input */}
-          <div class="space-y-2">
-            <Label for="email" value="Email" />
-            <InputIconWrapper
-              v-slots={{
-                icon: () => <MailIcon aria-hidden="true" class="w-5 h-5" />,
-              }}
-            >
-              <Input
-                withIcon
-                id="email"
-                type="email"
-                class="block w-full"
-                placeholder="Email"
-                v-model={resetPasswordForm.email}
-                required
-                autocomplete="username"
-              />
-            </InputIconWrapper>
-          </div>
+        return () => (
+            <form onSubmit={withModifiers(submit, ['prevent'])}>
+                <div class="grid gap-4">
+                    {/* Email input */}
+                    <KuiInput
+                        id="email"
+                        type="email"
+                        label="Email"
+                        icon="tabler:mail"
+                        placeholder="Email"
+                        v-model={resetPasswordForm.email}
+                        required
+                        autocomplete="username"
+                    />
 
-          {/* Password input */}
-          <div class="space-y-2">
-            <Label for="password" value="Password" />
-            <InputIconWrapper
-              v-slots={{
-                icon: () => <LockClosedIcon aria-hidden="true" class="w-5 h-5" />,
-              }}
-            >
-              <Input
-                withIcon
-                id="password"
-                type="password"
-                class="block w-full"
-                placeholder="Password"
-                v-model={resetPasswordForm.password}
-                required
-                autocomplete="new-password"
-              />
-            </InputIconWrapper>
-          </div>
+                    {/* Password input */}
+                    <KuiInput
+                        id="password"
+                        type="password"
+                        label="Password"
+                        icon="tabler:lock"
+                        placeholder="Password"
+                        v-model={resetPasswordForm.password}
+                        required
+                        autocomplete="new-password"
+                    />
 
-          {/* Password confirmation input */}
-          <div class="space-y-2">
-            <Label for="password_confirmation" value="Confirm Password" />
-            <InputIconWrapper
-              v-slots={{
-                icon: () => <LockClosedIcon aria-hidden="true" class="w-5 h-5" />,
-              }}
-            >
-              <Input
-                withIcon
-                id="password_confirmation"
-                type="password"
-                class="block w-full"
-                placeholder="Confirm Password"
-                v-model={resetPasswordForm.password_confirmation}
-                required
-                autocomplete="new-password"
-              />
-            </InputIconWrapper>
-          </div>
+                    {/* Password confirmation input */}
+                    <KuiInput
+                        id="password_confirmation"
+                        type="password"
+                        label="Confirm Password"
+                        icon="tabler:lock"
+                        placeholder="Confirm Password"
+                        v-model={resetPasswordForm.password_confirmation}
+                        required
+                        autocomplete="new-password"
+                    />
 
-          {/* Submit button */}
-          <div>
-            <Button type="submit" class="justify-center gap-2 w-full" disabled={resetPasswordForm.processing}>
-              <span>Reset Password</span>
-            </Button>
-          </div>
-        </div>
-      </form>
-    )
-  },
+                    {/* Submit button */}
+                    <KuiButton
+                        text="Reset Password"
+                        disabled={resetPasswordForm.processing}
+                    />
+                </div>
+            </form>
+        )
+    },
 })
