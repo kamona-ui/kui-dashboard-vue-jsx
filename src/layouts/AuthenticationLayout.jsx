@@ -4,24 +4,24 @@ import Logo from '@/components/Logo'
 import PageFooter from '@/components/PageFooter'
 
 export default defineComponent({
-  setup() {
-    return () => (
-      <div class="flex flex-col items-center justify-center min-h-screen gap-4 pt-6 bg-gray-100 dark:bg-dark-bg">
-        <div class="flex-shrink-0">
-          <RouterLink to={{ name: 'Dashboard' }}>
-            <Logo class="w-20 h-20" />
-            <span class="sr-only">Dashboard</span>
-          </RouterLink>
-        </div>
+    setup() {
+        return () => (
+            <div class="dark:bg-dark-bg flex min-h-screen flex-col items-center justify-center gap-4 bg-gray-100 pt-6">
+                <div class="flex-shrink-0">
+                    <RouterLink to={{ name: 'Dashboard' }}>
+                        <Logo class="h-20 w-20" />
+                        <span class="sr-only">Dashboard</span>
+                    </RouterLink>
+                </div>
 
-        <main class="flex items-center flex-1 w-full sm:max-w-md">
-          <div class="w-full px-6 py-4 overflow-hidden bg-white shadow-md sm:rounded-lg dark:bg-dark-eval-1">
-            <RouterView />
-          </div>
-        </main>
+                <main class="flex w-full flex-1 items-center sm:max-w-md">
+                    <div class="w-full overflow-hidden bg-white px-6 py-4 shadow-md dark:bg-dark-eval-1 sm:rounded-lg">
+                        <RouterView />
+                    </div>
+                </main>
 
-        <PageFooter />
-      </div>
-    )
-  },
+                <PageFooter />
+            </div>
+        )
+    },
 })

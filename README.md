@@ -19,12 +19,27 @@ git clone https://github.com/kamona-ui/kui-dashboard-vue-jsx.git
 cd kui-dashboard-vue-jsx
 
 # 2. Install the dependencies:
-npm install # Using npm
+yarn install # Using npm
 # or
-yarn # Using Yarn
+npm install # Using npm
 
 # 3. Start the development server:
-npm run dev # Using npm
+yarn dev
 # or
-yarn dev # Using Yarn
+npm run dev # Using npm
 ```
+##### Build
+
+```bash
+yarn build # or npm run build
+
+# Preview
+yarn previw # or npm run preview
+```
+
+---
+
+## Support
+
+[![PayPal Me](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.me/Akamel721/)
+
