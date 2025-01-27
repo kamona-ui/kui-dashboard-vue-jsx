@@ -8,7 +8,7 @@ import PageFooter from '@/components/PageFooter'
 export default defineComponent({
     setup() {
         return () => (
-            <div class="dark:bg-dark-bg min-h-screen bg-gray-100 text-gray-900 dark:text-gray-100">
+            <div class="dark:bg-dark-eval-0 min-h-screen bg-gray-100 text-gray-900 dark:text-gray-100">
                 <Sidebar />
 
                 <div
