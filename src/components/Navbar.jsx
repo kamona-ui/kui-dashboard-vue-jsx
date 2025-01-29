@@ -1,150 +1,164 @@
 import { defineComponent, onMounted, onUnmounted } from 'vue'
 import { RouterLink } from 'vue-router'
 import { useFullscreen } from '@vueuse/core'
-import { SunIcon, MoonIcon, SearchIcon, MenuIcon, XIcon, ArrowsExpandIcon } from '@heroicons/vue/outline'
-import { handleScroll, isDark, scrolling, toggleDarkMode, sidebarState } from '@/composables'
+import {
+    handleScroll,
+    isDark,
+    scrolling,
+    toggleDarkMode,
+    sidebarState,
+} from '@/composables'
 import Button from '@/components/Button'
 import Logo from '@/components/Logo'
 import Dropdown, { DropdownItem } from '@/components/Dropdown'
-import { ArrowsInnerIcon } from '@/components/icons/outline'
-import userAvatar from '@/assets/images/avatar.jpg'
 
 export const MobileBottomBar = defineComponent({
-  setup() {
-    return () => (
-      <div
-        class={[
-          'fixed inset-x-0 bottom-0 flex items-center justify-between px-4 py-4 sm:px-6 transition-transform duration-500 bg-white md:hidden dark:bg-dark-eval-1',
-          {
-            'translate-y-full': scrolling.down,
-            'translate-y-0': scrolling.up,
-          },
-        ]}
-      >
-        <Button iconOnly variant="secondary" srText="Search">
-          {({ iconSizeClasses }) => <SearchIcon aria-hidden="true" class={iconSizeClasses} />}
-        </Button>
+    setup() {
+        return () => (
+            <div
+                class={[
+                    'fixed inset-x-0 bottom-0 z-10 flex items-center justify-between bg-white px-4 py-4 transition-transform duration-500 dark:bg-dark-eval-1 sm:px-6 md:hidden',
+                    {
+                        'translate-y-full': scrolling.down,
+                        'translate-y-0': scrolling.up,
+                    },
+                ]}
+            >
+                <Button
+                    variant="secondary"
+                    srText="Search"
+                    icon="tabler--search"
+                />
 
-        <RouterLink to={{ name: 'Dashboard' }}>
-          <Logo class="w-10 h-10" />
-          <span class="sr-only">K UI</span>
-        </RouterLink>
+                <RouterLink to={{ name: 'Dashboard' }}>
+                    <Logo class="h-10 w-10" />
+                    <span class="sr-only">K UI</span>
+                </RouterLink>
 
-        <Button
-          iconOnly
-          variant="secondary"
-          onClick={() => {
-            sidebarState.isOpen = !sidebarState.isOpen
-          }}
-          class="md:hidden"
-          srText="Search"
-        >
-          {({ iconSizeClasses }) => (
-            <>
-              <MenuIcon v-show={!sidebarState.isOpen} aria-hidden="true" class={iconSizeClasses} />
-              <XIcon v-show={sidebarState.isOpen} aria-hidden="true" class={iconSizeClasses} />
-            </>
-          )}
-        </Button>
-      </div>
-    )
-  },
+                <Button
+                    variant="secondary"
+                    onClick={() => {
+                        sidebarState.isOpen = !sidebarState.isOpen
+                    }}
+                    class="p-2"
+                    srText="Open navigation menu"
+                    icon="tabler--menu-3"
+                />
+            </div>
+        )
+    },
 })
 
 export default defineComponent({
-  setup() {
-    const { isFullscreen, toggle: toggleFullScreen } = useFullscreen()
+    setup() {
+        const { isFullscreen, toggle: toggleFullScreen } = useFullscreen()
 
-    onMounted(() => {
-      document.addEventListener('scroll', handleScroll)
-    })
+        onMounted(() => {
+            document.addEventListener('scroll', handleScroll)
+        })
 
-    onUnmounted(() => {
-      document.removeEventListener('scroll', handleScroll)
-    })
+        onUnmounted(() => {
+            document.removeEventListener('scroll', handleScroll)
+        })
 
-    return () => (
-      <>
-        <nav
-          aria-label="secondary"
-          class={[
-            'sticky top-0 z-10 px-6 py-4 bg-white flex items-center justify-between transition-transform duration-500 dark:bg-dark-eval-1',
-            {
-              '-translate-y-full': scrolling.down,
-              'translate-y-0': scrolling.up,
-            },
-          ]}
-        >
-          <div class="flex items-center gap-2">
-            <Button
-              iconOnly
-              variant="secondary"
-              type="button"
-              onClick={toggleDarkMode}
-              class="md:hidden"
-              srText="Toggle dark mode"
-            >
-              {({ iconSizeClasses }) => (
-                <>
-                  <MoonIcon v-show={!isDark.value} aria-hidden="true" class={iconSizeClasses} />
-                  <SunIcon v-show={isDark.value} aria-hidden="true" class={iconSizeClasses} />
-                </>
-              )}
-            </Button>
-          </div>
+        return () => (
+            <>
+                <nav
+                    aria-label="secondary"
+                    class={[
+                        'sticky top-0 z-10 flex items-center justify-between bg-white px-6 py-4 transition-transform duration-500 dark:bg-dark-eval-1',
+                        {
+                            '-translate-y-full': scrolling.down,
+                            'translate-y-0': scrolling.up,
+                        },
+                    ]}
+                >
+                    <div class="flex items-center gap-2">
+                        <Button
+                            variant="secondary"
+                            type="button"
+                            onClick={toggleDarkMode}
+                            class="p-2 md:hidden"
+                            srText="Toggle dark mode"
+                        >
+                            {({ iconSizeClasses }) => (
+                                <>
+                                    <span
+                                        v-show={!isDark.value}
+                                        aria-hidden="true"
+                                        class={[
+                                            'iconify tabler--moon',
+                                            iconSizeClasses,
+                                        ]}
+                                    ></span>
 
-          <div class="flex items-center gap-2">
-            <Button
-              iconOnly
-              variant="secondary"
-              type="button"
-              onClick={toggleDarkMode}
-              class="hidden md:inline-flex"
-              srText="Toggle dark mode"
-            >
-              {({ iconSizeClasses }) => (
-                <>
-                  <MoonIcon v-show={!isDark.value} aria-hidden="true" class={iconSizeClasses} />
-                  <SunIcon v-show={isDark.value} aria-hidden="true" class={iconSizeClasses} />
-                </>
-              )}
-            </Button>
+                                    <span
+                                        v-show={isDark.value}
+                                        aria-hidden="true"
+                                        class={[
+                                            'iconify tabler--sun',
+                                            iconSizeClasses,
+                                        ]}
+                                    ></span>
+                                </>
+                            )}
+                        </Button>
+                    </div>
 
-            <Button
-              iconOnly
-              variant="secondary"
-              type="button"
-              onClick={toggleFullScreen}
-              class="hidden md:inline-flex"
-              srText="Toggle full screen"
-            >
-              {({ iconSizeClasses }) => (
-                <>
-                  <ArrowsExpandIcon v-show={!isFullscreen.value} aria-hidden="true" class={iconSizeClasses} />
-                  <ArrowsInnerIcon v-show={isFullscreen.value} aria-hidden="true" class={iconSizeClasses} />
-                </>
-              )}
-            </Button>
+                    <div class="flex items-center gap-2">
+                        <Button
+                            variant="secondary"
+                            type="button"
+                            onClick={toggleDarkMode}
+                            class="hidden p-2 md:inline-flex"
+                            srText="Toggle dark mode"
+                        >
+                            {({ iconSizeClasses }) => (
+                                <>
+                                    <span
+                                        v-show={!isDark.value}
+                                        aria-hidden="true"
+                                        class={[
+                                            'iconify tabler--moon',
+                                            iconSizeClasses,
+                                        ]}
+                                    ></span>
 
-            {/* User dropdown */}
-            <Dropdown
-              align="right"
-              width="48"
-              v-slots={{
-                trigger: () => (
-                  <button class="flex text-sm border-2 border-transparent rounded-md transition focus:outline-none focus:ring focus:ring-purple-500 focus:ring-offset-1 focus:ring-offset-white dark:focus:ring-offset-dark-eval-1">
-                    <img class="h-8 w-8 rounded-md object-cover" src={userAvatar} alt="User Name" />
-                  </button>
-                ),
-              }}
-            >
-              <DropdownItem to="#" title="Logout" />
-            </Dropdown>
-          </div>
-        </nav>
+                                    <span
+                                        v-show={isDark.value}
+                                        aria-hidden="true"
+                                        class={[
+                                            'iconify tabler--sun',
+                                            iconSizeClasses,
+                                        ]}
+                                    ></span>
+                                </>
+                            )}
+                        </Button>
 
-        <MobileBottomBar />
-      </>
-    )
-  },
+                        {/* User dropdown */}
+                        <Dropdown
+                            align="right"
+                            width="48"
+                            v-slots={{
+                                trigger: () => (
+                                    <Button class="overflow-hidden p-0">
+                                        <img
+                                            class="h-10 w-10 rounded-md object-cover"
+                                            src="images/avatar.jpeg"
+                                            alt="Ahmed Kamel"
+                                        />
+                                    </Button>
+                                ),
+                            }}
+                        >
+                            <DropdownItem to="#" title="Logout" />
+                        </Dropdown>
+                    </div>
+                </nav>
+
+                <MobileBottomBar />
+            </>
+        )
+    },
 })

@@ -4,17 +4,17 @@ import vueJSX from '@vitejs/plugin-vue-jsx'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [vueJSX()],
+    plugins: [vueJSX()],
 
-  resolve: {
-    alias: {
-      '@': resolve(__dirname, 'src'),
+    resolve: {
+        alias: {
+            '@': resolve(__dirname, 'src'),
+        },
     },
-  },
 
-  optimizeDeps: {
-    exclude: ['.out'],
-  },
+    optimizeDeps: {
+        exclude: ['.out'],
+    },
 
-  base: '/kui-dashboard-vue-jsx/',
+    base: '/kui-dashboard-vue-jsx/',
 })
